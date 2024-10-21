@@ -145,3 +145,28 @@ if __name__ == '__main__':
     # Funkcja ta ma zapisac podane argumenty do pliku config.csv w 2 kolumnach z czego pierwsza jest nazwa
     # argumentu a druga jego wartoscia. Jesli dane argument juz istnieje w pliku to trzeba bedzie tylko zaktualizowac
     # jego wartosc, jesli jeszcze go nie ma to trzeba go bedzie dodac do pliku.
+
+    def config(filename, **params):
+        loaded_config = {}
+        with open(filename, mode="r", encoding='utf-8') as file:
+            for line in file:
+                if line.isspace():
+                    continue
+                key, value = line.split(';')
+                loaded_config[key] = value
+
+        for p in params:
+            loaded_config[p] = params[p]
+
+        with open(filename, mode="w", encoding='utf-8') as file:
+            for p in loaded_config:
+                file.write(f'{p};{loaded_config[p]}\n')
+
+
+    config("plik.csv", wersja=1, arg=2, argument321=3, parametr1="wartość 2")
+    config("plik.csv", arg_inny=2, argument321=10, wersja=2.0)
+
+
+    ##############################################
+
+
