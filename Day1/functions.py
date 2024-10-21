@@ -86,3 +86,62 @@ if __name__ == '__main__':
 
     # napisz funkcje aplikuj ktora dostanie jako parametr wartosc i dowolna liczbe funkcji.
     # Następnie zaaplikuje wszystkie te funkcje dla podajnej wartosci i zwroic ja
+
+    funkcje = [pomnoz_razy_dwa, podziel_przez_trzy, dodaj_piec]
+
+    def aplikuj(wartosc: int, *funckje) -> float:
+        for f in funckje:
+            wartosc = f(wartosc)
+        return wartosc
+
+
+    print(aplikuj(1, *funkcje))
+    print(aplikuj(1, pomnoz_razy_dwa, podziel_przez_trzy, dodaj_piec))
+
+
+    def wiele_argumentów(*args):
+        ile_ich = len(args)
+        print(ile_ich)
+        for element in args:
+            print(element, type(element))
+
+
+    wiele_argumentów([1], "abc", 1.0, 123, "Moj super kurs pythona")
+
+    ##############################################
+
+    def funkcja_przykladowa(arg1, *args, **kwargs):
+        print("arg1:", arg1)
+        print("args:", args)
+        print("kwargs:", kwargs)
+
+
+    funkcja_przykladowa(1, 2, 3, 4, imie='Anna', wiek=30)
+
+
+    def parametr_kwargs(**kwargs):
+        for k in kwargs:
+            print(k, kwargs[k])
+
+    parametr_kwargs(dodatkowy=48, nastepny=111)
+
+
+    def zapisz_parametry_do_pliku(nazwa_pliku, **parametry):
+        plik = open(nazwa_pliku, mode='w', encoding='utf-8')
+        for p in parametry:
+            plik.write(f'{p};{parametry[p]}\n')
+        plik.close()
+
+
+    zapisz_parametry_do_pliku('mojplik.csv', parametr1='wartość 1', parametr2=2,
+                              moj_argument="Jestesmy zmeczeni bardzo")
+
+    parametry = {"param1": 1, "param2": 2, "param3": 3}
+
+    zapisz_parametry_do_pliku('mojplik2.csv', **parametry)
+
+
+    # Stworz funkcje "config" ktora bedzie otrzymywala argumenty kwargs bedace ustawieniami.
+    # Funkcja ta ma zapisac podane argumenty do pliku config.csv w 2 kolumnach z czego pierwsza jest nazwa
+    # argumentu a druga jego wartoscia. Jesli dane argument juz istnieje w pliku to trzeba bedzie tylko zaktualizowac
+    # jego wartosc, jesli jeszcze go nie ma to trzeba go bedzie dodac do pliku.
