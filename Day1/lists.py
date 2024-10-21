@@ -96,3 +96,52 @@ if __name__ == '__main__':
     print(power_of_2)
 
     ################################
+
+    list1 = [0, 1, 2]
+    list2 = [3, 4, 5]
+
+    list_of_lists = [list1, list2]
+    print(list_of_lists)
+
+    zero_value = list_of_lists[0][0]
+    print(zero_value)
+    list_of_lists_of_lists = [[[1, 3], [3, 4]], [[32, 43]]]
+
+
+    guest_list = ["Michael Scofield", "Lincoln Burrows", "TheodoreBagwell", "Uczciwy Polityk", "Andrzej Klusiewicz"]
+    if ("Uczciwy polityk" in guest_list):
+        print("Found")
+    else:
+        print("Ooops not here")
+
+
+    random_list_comp_2 = [random.randint(1, 10) for i in range(10)]
+    print(f'Przed sortowaniem: {random_list_comp_2}')
+    random_list_comp_2.sort()
+    print(f'Po sortowaniu: {random_list_comp_2}')
+    random_list_comp_2.reverse()
+    print(f'Odwrotnie: {random_list_comp_2}')
+
+    random_list_comp_3 = [random.randint(1, 10) for i in range(10)]
+    posortowane = sorted(random_list_comp_3)
+    odwrotnie = sorted(random_list_comp_3, reverse=True)
+    print(posortowane)
+    print(odwrotnie)
+
+    filtered = [e for e in posortowane if e % 2 == 0]
+    print(f"Only even {filtered}")
+
+    napis = "Litery RoZnej WIelKOSCI"
+    print(napis.lower())
+
+    for root, dirs, files in os.walk('E:\PythonKurs_18_10_2024'):
+        print(f'Root: {root}, folder: {dirs}, file: {files}')
+
+
+    # Napisz wyszukiwarkę plików która
+    # przyjmie od użytkownika szukaną frazę i katalog startowy. Wyszukiwarka ma wyswietlić
+    # wszystkie pliki i katalogi zawierajace w nazwie szukaną frazę - wraz ze ścieżkami.
+    # Wyszukiwarka ma być nieczuła na wielkość liter
+
+    starting_folder = "E:\PythonKurs_18_10_2024"
+    searched_text = ".py"
