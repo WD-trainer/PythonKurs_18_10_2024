@@ -170,3 +170,85 @@ if __name__ == '__main__':
     ##############################################
 
 
+    def zewnetrzna(x):
+        def wewnetrzna(x):
+            return x * 2
+
+        print(wewnetrzna(x))
+        return 1
+
+
+    print(zewnetrzna(x=5))
+
+
+    # funkcja zwracajaca funkcje
+    def outer(x):
+        def inner(y):
+            return x + y
+
+        return inner
+
+
+    dodaj_dwa = outer(2)
+    wynik = dodaj_dwa(7)
+    print(wynik)
+
+
+
+    # Napisz funkcje która będzie tworzyła listę liczb parzystych lub nieparzystych w danym zakresie
+    # funkcje do sprawdzenia parzystosci napisz jako funckje wewnętrzne i w zależności
+    # od przekazanego parametru wywołuj odpowiednią
+    # range(start, koniec)
+    def generuj_liczby(start: int = 0, koniec: int = 10, parzyste: bool = True) -> list[int]:
+        def parzysta(x: int) -> bool:
+            return x % 2 == 0
+
+        def nieparzysta(x: int) -> bool:
+            return x % 2 == 1
+
+        list_liczba = []
+        for i in range(start, koniec):
+            if parzyste and parzysta(i):
+                list_liczba.append(i)
+            elif not parzyste and nieparzysta(i):
+                list_liczba.append(i)
+
+        return list_liczba
+
+
+    print(generuj_liczby())
+
+    print(generuj_liczby(0, 20, parzyste=False))
+
+    # argumenty na wiele sposobów
+    print(generuj_liczby(parzyste=True, koniec=100, start=10))
+    print(generuj_liczby(10, parzyste=True, koniec=100))
+    print(generuj_liczby(10, 100, True))
+
+
+
+    @functools.lru_cache()
+    def fibonacci(num):
+        print(f"Calculating fibonacci({num})")
+        if num < 2:
+            return num
+        return fibonacci(num - 1) + fibonacci(num - 2)
+
+
+
+    poczatek = datetime.now()
+    fibonacci(20)
+    koniec = datetime.now()
+    print(f'Fibonnaci time: {koniec - poczatek}')
+
+    @functools.lru_cache()
+    def dluga_funkcja():
+        time.sleep(5)
+        print("liczy sie")
+        return 1
+
+    poczatek = datetime.now()
+    for i in range(100):
+        dluga_funkcja()
+    koniec = datetime.now()
+    print(f'Ile czasu nam to zajęło: {koniec - poczatek}')
