@@ -92,4 +92,44 @@ if __name__ == '__main__':
     dlugosci_nazwisk = {nazwisko : len(nazwisko) for nazwisko in nazwiska if len(nazwisko) > 6}
     print(dlugosci_nazwisk)
 
-    #  Znajdź studentów, którzy mają średnią ocenę powyżej 4.0, stworz słownik id: słownik 
+    #  Znajdź studentów, którzy mają średnią ocenę powyżej 4.0, stworz słownik id: słownik
+    studenci_pow_4 = {id: dane for id, dane in studenci.items() if dane['srednia_ocen'] > 4.0}
+    print("Studenci ze średnią oceną powyżej 4.0:", studenci_pow_4)
+
+    # lambda argumenty : wyrażenie
+    p = lambda argumenty: print(argumenty)
+    p("moj napis")
+
+    # Tak nie robić !!! to juz za duzo na lambde
+    calculate = lambda x, y: x + y if x > y else x - y
+    print(calculate(5, 10))
+
+
+    # lepiej tak
+    def calculate(x, y):
+        if x > y:
+            return x + y
+        else:
+            return x - y
+
+
+    liczby = [1, 2, 3, 4, 5]
+    powers = list(map(lambda x: x ** 2, liczby))
+    print(powers)
+
+    #########
+    najgorszy_student = min(studenci.items(), key=lambda item: item[1]['srednia_ocen'])
+    studenci.pop(najgorszy_student[0])
+    print("Studenci po usunięciu najgorszego:", studenci)
+
+
+
+    employees = [
+        {"name": "John", "salary": 50000},
+         {"name": "Jane", "salary": 55000},
+         {"name": "Jim", "salary": 60000}
+                 ]
+
+    # uzupełnij
+    highest_salary_employee = max(
+    print(highest_salary_employee)
