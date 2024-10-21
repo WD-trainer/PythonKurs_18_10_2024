@@ -7,7 +7,7 @@ from collections import defaultdict
 from datetime import datetime
 import time
 import functools
-from typing import Callable
+from typing import Callable, Tuple
 
 
 def times2(a: int | list[int]) -> str | int:  # Union[str, int]
@@ -51,11 +51,38 @@ if __name__ == '__main__':
 
 
     # Stwórz funkcję która wydrukuje na konsoli sumę wartości przekazanych do niej jako *args
-    def moja_suma(*liczby):
-        #do implementacji
-        
-
+    def moja_suma(*liczby: tuple[int, ...]) -> int:
+        suma = 0
+        for i in liczby:
+            suma += i
+        return suma
 
 
     suma = moja_suma(1, 2, 3, 4, 5, 15, 18, 50)
     print(suma)
+
+    list1 = [1, 2, 3]
+    list2 = [4, 5]
+    list3 = [6, 7, 8, 9]
+
+    print(moja_suma(*list1, *list2, *list3))  # *list1 = 1,2,3
+
+    def my_sum(a, b, c):
+        print(f"a={a}")
+        print(a + b + c)
+
+
+    slownik = {"c": 2, "a": 4, "b": 3}
+    my_sum(**slownik)   # my_sum(a=4,b=3,c=2)
+    my_sum(*list1)  #my_sum(1,2,3)
+
+
+    def pomnoz_razy_dwa(x):
+        return x * 2
+    def podziel_przez_trzy(x):
+        return x / 3
+    def dodaj_piec(x):
+        return x + 5
+
+    # napisz funkcje aplikuj ktora dostanie jako parametr wartosc i dowolna liczbe funkcji.
+    # Następnie zaaplikuje wszystkie te funkcje dla podajnej wartosci i zwroic ja
