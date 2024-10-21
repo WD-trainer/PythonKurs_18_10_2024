@@ -46,3 +46,18 @@ if __name__ == '__main__':
 
     #  Stwórz dwie listy. Każda z list ma zawierać 10 liczb losowych z zakresu 1-10. Wypisz listy na konosole raz z uzyciem petli
     #  drugi raz z uzyciem funkcji print
+    random_list_1 = []
+    random_list_2 = []
+    for i in range(10):
+        random_list_1.append(random.randint(1, 10))
+        random_list_2.append(random.randint(1, 10))
+
+    print(random_list_1)
+
+    for index, element in enumerate(random_list_2):
+        print(f'Presenting: {index} : {element}')
+
+    ################################
+
+
+    
