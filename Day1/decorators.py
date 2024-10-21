@@ -116,16 +116,58 @@ if __name__ == '__main__':
 
 
     # Napisz funkcje która przed i po wykonaniu innej funkcji wypisze 25 '*'     print("*" * 25)
+    def star(func):
+        def inner(*args, **kwargs):
+            print("*" * 25)
+            # if len(args) == 1 and  isinstance(args[0],str):
+            #     func("Zwalidowałem parametry i to jest string")
+            func(*args, **kwargs)
+            print("*" * 25)
+
+        return inner
 
 
+    def percent(func):
+        def inner(*args, **kwargs):
+            print("%" * 15)
+            func(*args, **kwargs)
+            print("%" * 15)
+
+        return inner
 
 
-    def printer(msg: str):
+    @percent
+    @star
+    def printer(msg: str):    # printer = percent(star(printer))
         print(msg)
 
 
+    @star
     def printer_2(msg: str, count: int):
         print(msg * count)
 
     printer("Hello World")
-    printer_2("Hello World")
+    printer_2("Hello World", 2)
+
+
+    def hello_decorator(func):
+        def inner1(*args, **kwargs):
+            print("before Execution")
+
+            # getting the returned value
+            returned_value = func(*args, **kwargs)
+            print("after Execution")
+
+            # returning the value to the original frame
+            return returned_value
+
+        return inner1
+
+
+    @hello_decorator
+    def sum_two_numbers(a: int, b: int) -> int:
+        print("Inside the function sum_two_numbers")
+        return a + b
+
+    result = sum_two_numbers(12, 4)
+    print(f"Wynik dodawania: 12 + 4 = {result}")
