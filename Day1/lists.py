@@ -144,4 +144,23 @@ if __name__ == '__main__':
     # Wyszukiwarka ma być nieczuła na wielkość liter
 
     starting_folder = "E:\PythonKurs_18_10_2024"
-    searched_text = ".py"
+    searched_text = ".Py"
+    #searched_text = input()
+
+    found = []
+    searched_text = searched_text.lower()
+
+    for root, dirs, files in os.walk(starting_folder):
+        for element in dirs + files:
+            if searched_text in element.lower():
+                found.append(os.path.join(root, element))
+
+    print(found)
+
+
+    # searched_text = searched_text.lower()
+    # found = [os.path.join(root, element)
+    #          for root, dirs, files in os.walk(starting_folder)
+    #          for element in dirs + files
+    #          if searched_text in element.lower()]
+
