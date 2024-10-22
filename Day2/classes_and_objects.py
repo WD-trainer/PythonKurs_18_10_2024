@@ -161,9 +161,55 @@ class Zawodnik:
     def __str__(self):
         return f'Zawodnik: {self._imie}, o BMI={self.BMI:.3f}'
 
+    @staticmethod
+    def nie_uzywam_atrybutow(info:str):
+        print(info)
+
+    @classmethod
+    def create_from_string(cls, text: str):
+        dane = text.strip().split(';')
+        if len(dane) == 3:
+            wzrost_cm, waga_lbs, imie = dane
+            z = cls(wzrost=int(wzrost_cm) / 100, masa=int(waga_lbs) * 0.454, imie=imie)
+            return z
+
+
+    # odczytali dane z pliku dane.txt
+    # zbudowali sobie liste zawodnikow (jako obietky klasy) przy uzyciu  @classmethod
+    
+
+
+
+    # Bardzo zła praktyka
+    # def dodaj_atrybut_nazwisko(self, nazwisko:str):
+    #     self.nazwisko = nazwisko
+
 
 
 z = Zawodnik(1.8, 80, "Jan")
+# z.dodaj_atrybut_nazwisko("Nowak")
 print(z)
 z.waga = 75
 print(z)
+
+Zawodnik.nie_uzywam_atrybutow("Hello")
+z.nie_uzywam_atrybutow("Hello world")
+
+
+z2 = Zawodnik.create_from_string("176;150;Paweł")
+print(z2)
+
+
+
+
+class MathUtils:
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+    @staticmethod
+    def multiply(x, y):
+        return x * y
+
+
+MathUtils.add(2,2)
