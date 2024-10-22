@@ -349,8 +349,15 @@ if __name__ == '__main__':
 
     # napisz decorator ktory bedzie liczył ile razy dana funckja została wywołana i będzie wypisywał przy każdym jej
     # wywołaniu tą informajcę oraz nazwe funkcje na konsolę
+    def count_calls(func):
+        @functools.wraps(func)
+        def wrapper_count_calls(*args, **kwargs):
+            wrapper_count_calls.num_calls += 1
+            print(f"Call {wrapper_count_calls.num_calls} of {func.__name__}()")
+            return func(*args, **kwargs)
 
-
+        wrapper_count_calls.num_calls = 0
+        return wrapper_count_calls
 
 
     @count_calls
