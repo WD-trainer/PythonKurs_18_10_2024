@@ -165,9 +165,22 @@ if __name__ == '__main__':
 
 
     @hello_decorator
-    def sum_two_numbers(a: int, b: int) -> int:
+    def sum_two_numbers(a: int, b: int) -> int:          # sum_two_numbers = hello_decorator(sum_two_numbers)
         print("Inside the function sum_two_numbers")
         return a + b
 
     result = sum_two_numbers(12, 4)
     print(f"Wynik dodawania: 12 + 4 = {result}")
+
+
+    # Dodaj dekorator który zliczy czas wykonywania tej funkcji z parametrami. Zaloguj na konsole wszystkie przekazane parametry
+    
+
+
+
+
+    def opakuj_mnie_z_parametrami(x, napis_do_wypisania):
+        for i in range(x):
+            time.sleep(1)
+        print(f"Robie ciekawe rzeczy w Pythonie {napis_do_wypisania}")
+        return 0
