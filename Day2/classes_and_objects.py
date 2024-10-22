@@ -361,59 +361,244 @@ print(v1)
 
 #https://www.geeksforgeeks.org/context-manager-in-python/
 class Timer:
-    def __init__(self, verbose):
-        
+    """
+    Tu generalny opis do czego jest klasa
+    """
+    def __init__(self, verbose: bool):
+        """
+
+        Parameters
+        ----------
+        verbose
+        """
+        self.timer = timer
+        self.elapsed = 0
+        self.verbose = verbose
+        self.start = 0
 
     def __enter__(self):
+        """
 
+        Returns
+        -------
+
+        """
+        print("Zaczynam pomiar")
+        self.start = self.timer()
         return self
 
     def __exit__(self, *args):
+        print("Koncze pomiar")
+        end = self.timer()
+        self.elapsed = end - self.start
+        self.elapsed *= 1000 # convert to miliseconds
+        if self.verbose:
+            print(f"Measured time: {self.elapsed}")
 
 
 
 
 
 with Timer(verbose=True) as t:
-    time.sleep(3)
+    #time.sleep(3)
     print("Moja bardzo długa funkcja")
 
 
-# class BankAccount:
-#     # Class variable to store interest rate
-#     interest_rate = 0.05
+print(f'Ta funkcja trwała {t.elapsed}')
+
+# Dokumentowanie klas
+from pandas import DataFrame
+#####################
+
+class BankAccount:
+    # Class variable to store interest rate
+    interest_rate = 0.05
+
+    def __init__(self, owner, balance):
+        self.owner = owner  # Instance variable
+        self.balance = balance
+
+    def calculate_interest(self):
+        self.balance += self.balance * BankAccount.interest_rate
+
+    def __str__(self):
+        return f'Account {self.owner} has {self.balance}'
+
+
+account1 = BankAccount("Alice", 1000)
+account2 = BankAccount("Bob", 2000)
+
+account1.calculate_interest()
+print(account1)
+print(BankAccount.interest_rate)  # Output: 0.05
+BankAccount.interest_rate = 0.1
+account2.calculate_interest()
+account1.calculate_interest()
+print(account1)
+print(account2)
 #
-#     def __init__(self, owner, balance):
-#         self.owner = owner  # Instance variable
-#         self.balance = balance
 #
-#     def calculate_interest(self):
-#         self.balance += self.balance * BankAccount.interest_rate
-#
-#     def __str__(self):
-#         return f'Account {self.owner} has {self.balance}'
-#
-#
-# account1 = BankAccount("Alice", 1000)
-# account2 = BankAccount("Bob", 2000)
-#
-# account1.calculate_interest()
-# print(account1)
-# print(BankAccount.interest_rate)  # Output: 0.05
-# BankAccount.interest_rate = 0.1
-# account2.calculate_interest()
-# account1.calculate_interest()
-# print(account1)
-# print(account2)
-#
-#
-# @dataclass   # https://docs.python.org/3/library/dataclasses.html
-# class Point:
-#     x: int
-#     y: int
-#
-# point = Point(10, 20)
-# print(point)
+@dataclass   # https://docs.python.org/3/library/dataclasses.html
+class Point:
+    x: int
+    y: int
+
+point = Point(x=10, y=20)
+print(point)
 
 
 
+#################################################### CWICZENIE DODATKOWE
+
+# Stwórz klasę Ustawienia która będzie w momencie tworzenia obiektu czytac plik ustawienia.csv o treści:
+# encoding;utf-8
+# language;pl
+# timezone;-2
+# Dane te mają zostać wczytane do wewnętrznego słownika tak, by pierwsza kolumna stanowila klucze a druga wartosci.
+# Obiekt ma umożliwiać sprawdzanie ustawień w ten sposób:
+# u=Ustawienia()
+# print( u['encoding'] )
+# Obiekt ma umożliwiać też ustawienie wartości na zasadzie u[‘nazwa’]=’wartosc’.
+# W przypadku zmiany powinna ona dotyczyć również zawartości pliku.
+
+#################################################### CWICZENIE DODATKOWE
+
+
+class IDraw(ABC):
+    @abstractmethod
+    def drawing(self):
+        pass
+
+class Figure(ABC):
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+
+    def give_name(self):
+        print(f"Figure {self.name}, {self.color}")
+
+    @abstractmethod
+    def area(self):
+        pass
+
+
+class Squre(Figure, IDraw):
+    def __init__(self, lenght:float):
+        super().__init__("Squer", "red")
+        self.lenght = lenght
+
+    def area(self):
+        return self.lenght ** 2
+
+    def drawing(self):
+        print("**")
+        print("**")
+
+
+class Rectangle(Figure, IDraw):
+    def __init__(self, a:float, b:float, *args, **kwargs):
+        super().__init__("Rectangle", "green", *args, **kwargs)
+        self.a = a
+        self.b = b
+
+    def area(self):
+        return self.a * self.b
+
+    def drawing(self):
+        print("****")
+        print("****")
+
+
+class SpecialRectangle(Rectangle):
+    def __init__(self, a: float, b: float, *args, **kwargs):
+        super().__init__(a,b, *args, **kwargs)
+
+    def area(self):
+        return self.a * self.b * 2
+
+    def drawing(self):
+        print("****" * 2)
+        print("****" * 2)
+
+figury =  [Rectangle(2,3), Squre(50), Rectangle(6,8)]  # Figure("Nazwa") --- nie dozwolne tworzenie instancji klasy abstrakcyjnej
+for f in figury:
+    f.give_name()
+    print(f.area())
+    f.drawing()
+
+
+
+
+# zmien klase animal na klase abstrakcyjna
+# zmien metode speak na metode abstrakcyjna
+# dodaj interfejs ILiveOn ktore bedzie posiadał funkcje where_I_live()
+# dodac interfejs do klas pochodnych klasy animal
+
+class Animal(object):
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} makes a sound")
+
+    def eat(self):
+        print("eating")
+
+    def __str__(self):
+        return f'My name is {self.name}'
+
+
+class Dog(Animal):
+    def speak(self):
+        print(f"{self.name} barks")
+
+
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name} meows")
+
+
+animal = Animal("Generic Animal")
+dog = Dog("Buddy")
+cat = Cat("Whiskers")
+
+animal.speak()
+dog.speak()
+cat.speak()
+cat.eat()
+
+lista_zwierzat = [cat, dog]
+
+for zwierze in lista_zwierzat:
+    zwierze.speak()
+    zwierze.eat()
+    print(zwierze)
+
+
+
+
+
+
+# Python używa algorytmu C3 linearization (MRO - Method Resolution Order) do ustalania kolejności przeszukiwania klas bazowych.
+class A:
+    def do_something(self):
+        print("A")
+
+class B(A):
+    def do_something(self):
+        print("B")
+        super().do_something()
+
+class C(A):
+    def do_something(self):
+        print("C")
+        super().do_something()
+
+class D(B, C):
+    def do_something(self):
+        print("D")
+        super().do_something()
+
+
+d = D()
+d.do_something()
