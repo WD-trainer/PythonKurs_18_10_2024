@@ -40,5 +40,19 @@ print("*" * 45)
 #     Stwórz klasę "Samochod" posiadającą pola "marka", "model", "rejestracja".
 #     Klasa ta powinna zawierać też metodę "wyswietl" wypisującą dane z obiektu na konsoli
 #     Stwórz dwa obiekty tej klasy i korzystajac  z metody "wyświetl" wyswietl na konsoli ich zawartość.
+class Samochod:
+
+    def __init__(self, marka: str, model: str, rejestracja:str):
+        self.marka = marka
+        self.model = model
+        self.rejestracja = rejestracja
+
+    def wyswietl(self):
+        print(f"Samochod: {self.marka}, {self.model}, {self.rejestracja}")
 
 
+s1 = Samochod("Opel", "Astra", "KK 88023")
+s2 = Samochod("Audi", "R8", "WW DR346")
+
+s1.wyswietl()
+s2.wyswietl()
