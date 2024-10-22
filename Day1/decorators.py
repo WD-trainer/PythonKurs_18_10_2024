@@ -8,6 +8,7 @@ from datetime import datetime
 import time
 import functools
 from typing import Callable
+import statistics
 
 
 def do_opakowania():
@@ -230,7 +231,7 @@ if __name__ == '__main__':
         return sleeper_decorator
 
 
-    @sleeper(sleep_time=2.5)
+    @sleeper(sleep_time=0.001)
     def slow_add(a: float, b: float) -> float:
         return a + b
 
@@ -238,9 +239,18 @@ if __name__ == '__main__':
     print(f'{slow_add(2, 2)}')
 
     # Stwórz dekorator, który sprawdza, czy użytkownik ma odpowiednie uprawnienia do wywołania funkcji. Jeśli nie, wyświetli komunikat o braku dostępu.
+    def check_permissions(required_permission: str):
+        def decorator(func):
+            @functools.wraps(func)
+            def wrapper(user: dict[str,str], *args, **kwargs):
+                if user.get('permission') == required_permission:
+                    return func(user, *args, **kwargs)
+                else:
+                    print("Brak uprawnień do wykonania tej funkcji")
 
+            return wrapper
 
-
+        return decorator
 
 
 
@@ -250,15 +260,23 @@ if __name__ == '__main__':
 
     @check_permissions('user')
     def user_function(user):
-        print("Witaj, użytkowniku!")
+        print(f"Witaj, użytkowniku {user['name']}")
 
 
     @check_permissions('admin')
     def admin_function(user):
         print("Witaj, adminie!")
 
+    @check_permissions('admin')
+    def admin_function_2(user, user_to_delete):
+        print(f"Usuwam {user_to_delete}!")
+
 
     admin_function(user1)  # Output: Witaj, adminie!
     admin_function(user2)  # Output: Brak uprawnień do wykonania tej funkcji
     user_function(user2)  # Output: Witaj, użytkowniku!
     user_function(user1)  # Output: Brak uprawnień do wykonania tej funkcji
+
+    admin_function_2(user1, "Anna")
+
+    
