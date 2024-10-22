@@ -10,7 +10,6 @@ import functools
 import logging
 
 
-
 # Create a logger
 logger = logging.getLogger('my_logger') # w praktyce bardzo czesto korzystamy z getLogger(__name__)
 logger.setLevel(logging.WARNING)
@@ -97,9 +96,8 @@ if __name__ == '__main__':
         cls.new_method = new_method
         return cls
 
-        # Apply the decorator to the class
 
-
+    # Apply the decorator to the class
     @add_method_decorator
     class MyClass:
         def __init__(self, value):
