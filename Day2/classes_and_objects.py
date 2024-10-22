@@ -534,12 +534,19 @@ for f in figury:
 # dodaj interfejs ILiveOn ktore bedzie posiadał funkcje where_I_live()
 # dodac interfejs do klas pochodnych klasy animal
 
-class Animal(object):
+class ILiveOn(ABC):
+    @abstractmethod
+    def where_I_live(self):
+        pass
+
+
+class Animal(ABC):
     def __init__(self, name):
         self.name = name
 
+    @abstractmethod
     def speak(self):
-        print(f"{self.name} makes a sound")
+        pass
 
     def eat(self):
         print("eating")
@@ -548,21 +555,27 @@ class Animal(object):
         return f'My name is {self.name}'
 
 
-class Dog(Animal):
+class Dog(Animal, ILiveOn):
     def speak(self):
         print(f"{self.name} barks")
 
+    def where_I_live(self):
+        print("In dog house outside")
 
-class Cat(Animal):
+
+class Cat(Animal, ILiveOn):
     def speak(self):
         print(f"{self.name} meows")
 
+    def where_I_live(self):
+        print("In my owner bed")
 
-animal = Animal("Generic Animal")
+
+#animal = Animal("Generic Animal") # !!!!
 dog = Dog("Buddy")
 cat = Cat("Whiskers")
 
-animal.speak()
+# animal.speak() # !!!!
 dog.speak()
 cat.speak()
 cat.eat()
@@ -571,10 +584,75 @@ lista_zwierzat = [cat, dog]
 
 for zwierze in lista_zwierzat:
     zwierze.speak()
+    zwierze.where_I_live()
     zwierze.eat()
     print(zwierze)
 
+if isinstance(cat, Cat):
+    print("meow")
 
+from sklearn.svm import SVC
+
+
+
+
+################################## Example of mixin
+
+class BorrowableMixin:
+    def __init__(self):
+        self._borrowed = False
+
+    def borrow(self):
+        if self._borrowed:
+            raise Exception("Item already borrowed")
+        self._borrowed = True
+
+    def return_item(self):
+        if not self._borrowed:
+            raise Exception("Item not borrowed")
+        self._borrowed = False
+
+    def is_borrowed(self):
+        return self._borrowed
+
+
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+
+    def info(self):
+        return f"Book: {self.title} by {self.author}"
+
+
+class DVD:
+    def __init__(self, title, director):
+        self.title = title
+        self.director = director
+
+    def info(self):
+        return f"DVD: {self.title}, directed by {self.director}"
+
+
+class BorrowableBook(Book, BorrowableMixin):
+    def __init__(self, title, author):
+        Book.__init__(self, title, author)
+        BorrowableMixin.__init__(self)
+
+class BorrowableDVD(DVD, BorrowableMixin):
+    def __init__(self, title, director):
+        DVD.__init__(self, title, director)
+        BorrowableMixin.__init__(self)
+
+
+book = BorrowableBook("1984", "George Orwell")
+dvd = BorrowableDVD("Inception", "Christopher Nolan")
+
+print(book.info())
+book.borrow()
+print(f"Czy jest wypozyczona {book.is_borrowed()}")
+book.return_item()
+print(f"Czy jest wypozyczona {book.is_borrowed()}")
 
 
 
