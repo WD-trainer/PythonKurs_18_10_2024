@@ -140,7 +140,30 @@ print(f'Rectangle {r.dlugosc_a}, {r.b}')
 # Waga może być zmieniana ale też jako atrybut z wykorzystaniem dekoratora @property
 # wzor na bmi = masa / (wzrost ** 2)   wzrost podany w metrach 1.84
 # dodac metode __str__
+class Zawodnik:
+    def __init__(self, wzrost: float, masa: float, imie: str):
+        self.__wzrost = wzrost
+        self._masa = masa
+        self._imie = imie
+
+    @property
+    def BMI(self) -> float:
+        return self._masa / (self.__wzrost ** 2)
+
+    @property
+    def waga(self) -> float:
+        return self._masa
+
+    @waga.setter
+    def waga(self, value: float):
+        self._masa = value
+
+    def __str__(self):
+        return f'Zawodnik: {self._imie}, o BMI={self.BMI:.3f}'
 
 
 
-
+z = Zawodnik(1.8, 80, "Jan")
+print(z)
+z.waga = 75
+print(z)
