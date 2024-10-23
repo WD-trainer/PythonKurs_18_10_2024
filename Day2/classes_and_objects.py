@@ -447,6 +447,22 @@ point = Point(x=10, y=20)
 print(point)
 
 
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+    age: int
+
+
+person1 = Person('Jan', 'Kowalski', 30)
+person2 = Person('Anna', 'Nowak', 25)
+
+print(person1)
+print(person2)
+
+print(person1 == person2)
+
+
 
 #################################################### CWICZENIE DODATKOWE
 
