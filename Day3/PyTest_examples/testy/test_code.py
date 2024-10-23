@@ -1,7 +1,7 @@
 import pytest  # pip install pytest
 import sys
 
-from Day3.PyTest_examples.code_pytest import sumuj, dajCyfry, is_palindrome, calculate_average
+from Day3.PyTest_examples.code_pytest import sumuj, dajCyfry, is_palindrome, calculate_average, calculate_percentage, loadDB, getOne, getData
 
 
 def test_sumuj():
@@ -71,7 +71,7 @@ def test_palindrome_false(text):
     assert is_palindrome(text) == False
 
 
-lista_przypadkow_testowych2 = [("hello", False), ("python", False), ("123456x", False)]
+lista_przypadkow_testowych2 = [("hello", False), ("python", False), ("123456x", False), ("Kajak", True)]
 @pytest.mark.parametrize('text, result', lista_przypadkow_testowych2)
 def test_palindrome_false_parametryzacja_z_wynikiem(text, result):
     assert is_palindrome(text) == result
@@ -81,6 +81,67 @@ def test_average_empty_list():
     assert calculate_average([]) is None
 
 
+@pytest.mark.parametrize("numbers, expected_result", [
+    ([1, 2, 3], 2.0),
+    ([0, 0, 0, 0], 0.0),
+    ([10, 20, 30, 40, 50], 30.0),
+])
+def test_average_parametrized(numbers, expected_result):
+    assert calculate_average(numbers) == expected_result
+
+
+def test_calculate_percentage_invalid_percent():
+    with pytest.raises(ValueError) as e:
+        calculate_percentage(100, -10)
+    assert str(e.value) == "Percent must be between 0 and 100"
+
+
+
+
+# def setup_module():
+#     print("\n############## setup ##############")
+#     loadDB()
+#
+# def teardown_module():
+#     print("\n############## bye ##############")
+#
+# def test_getOne():
+#     assert getOne(0)[1]=='Marian'
+#
+# def test_getData():
+#     assert len(getData()) > 0
+
+
+
+@pytest.fixture(scope="module", autouse=True)
+def setup_and_teardown():
+    print("\n############## setup ##############")
+    loadDB()
+    yield
+    print("\n############## bye ##############")
+
+
+def test_getData():
+    assert len(getData()) > 0
+
+
+def test_getOne():
+    assert getOne(0)[1] == 'Marian'
+
+
+@pytest.fixture(scope="function")
+def example_fixture():
+    print("\nSetup: Przygotowanie zasobów")
+    data = {"key": "value"}
+    yield data
+    print("\nTeardown: Sprzątanie po teście")
+
+# Testy współdzielą tę samą fixture (ponieważ scope='module')
+def test_example_1(example_fixture):
+    assert example_fixture["key"] == "value"
+
+def test_example_2(example_fixture):
+    assert example_fixture["key"] == "value"
 
 
 
