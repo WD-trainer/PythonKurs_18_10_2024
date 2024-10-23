@@ -52,6 +52,18 @@ def fetch_and_count_words(url):
         print(f"Words count from {url}: {words_count}")
 
 
+
+def my_background_task():
+    while True:
+        print("Demon thread is running...")
+        time.sleep(1)
+
+
+def main_task():
+    print("Main task is running...")
+    time.sleep(5)
+    print("Main task finished!")
+
 if __name__ == "__main__":
     thread1 = threading.Thread(target=print_numbers)
     thread2 = threading.Thread(target=print_letters)  ### daemon=True
@@ -64,7 +76,7 @@ if __name__ == "__main__":
     # print("Done!")
 
 
-    # main_threading()
+    # main_threading()   # przykład z liczeniem sumy z dużej tablicy
 
     # Stworzyć program, który równolegle pobiera i przetwarza dane z kilku stron internetowych.
     urls = [
@@ -72,5 +84,35 @@ if __name__ == "__main__":
         "https://www.python.org",
         "https://www.wikipedia.org"
     ]
-    
+    threads = []
+    for url in urls:
+        thread = threading.Thread(target=fetch_and_count_words, args=(url,))
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+
+    print("Koniec liczenia")
+
+    # Tworzymy wątek demoniczny
+    demon_thread = threading.Thread(target=my_background_task, daemon=True)
+    # demon_thread.daemon = True  # Można też tak to ustawić
+    demon_thread.start()
+
+    # Wykonujemy główny wątek
+    main_task()
+
+    thread1 = threading.Thread(target=print_numbers)
+    thread1.start()
+
+    time.sleep(5)
+    thread2 = threading.Thread(target=print_letters, daemon=True)  ### daemon=True
+
+    thread2.start()
+
+    # thread1.join()
+    # thread2.join()
+
+    print("Program zakończony.")
 
