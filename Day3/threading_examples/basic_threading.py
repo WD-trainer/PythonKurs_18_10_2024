@@ -95,7 +95,9 @@ if __name__ == "__main__":
 
     print("Koniec liczenia")
 
-    # Tworzymy wątek demoniczny
+    # Tworzymy wątek demoniczny - program nie czeka na jego zakończenie zanim sam skończy pracę
+    # jeśli główny wątek programu kończy się automatycznie wszystkie wątki demoniczne
+    # też zostaną zakończone nie ważne co w danej chwili robią -- nie ma żadnej gwarancji że zakończą pracę
     demon_thread = threading.Thread(target=my_background_task, daemon=True)
     # demon_thread.daemon = True  # Można też tak to ustawić
     demon_thread.start()
@@ -111,7 +113,7 @@ if __name__ == "__main__":
 
     thread2.start()
 
-    # thread1.join()
+    # thread1.join() # nawet jak nie czekamy na zwykły wątek to program nie może zakończyć się szybciej
     # thread2.join()
 
     print("Program zakończony.")
