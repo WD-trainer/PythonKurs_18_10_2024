@@ -19,7 +19,8 @@ from PodPakiet import times3
 # rzuc wyjatkiem Value error. # raise ValueError("wiadomosc bledu")
 # W pliku __init__.py ustaw zmienna __all__ tak aby tylko funkcja liczac BMI byla widoczna po imporcie pakietu
 # dodajcie print do pliku __init__.py
-
+#import BodyMassIndex as bmi
+from BodyMassIndex import calculate_bmi
 
 
 
@@ -45,3 +46,23 @@ if __name__ == "__main__":
 
     # print(f'3x3={times3(3)}')
     print(functions._times4(4))
+
+    try:
+        height = [2.11, 1.80]
+        weight = [100, 400]
+        for h, w in zip(height, weight):
+            bmi_result = calculate_bmi(h, w)
+            print("Your BMI is:", bmi_result)
+    except ValueError as e:
+        print("Error:", e)
+
+    #dokumentacja i sprawdzanie infomracji
+    help(calculate_bmi)
+
+    import BodyMassIndex
+
+    # Wywołanie docstringa pakietu
+    print(BodyMassIndex.__doc__)
+
+    # Sprawdzanie wersji pakietu
+    print("Package version:", BodyMassIndex.__version__)  # scipy==1.0
